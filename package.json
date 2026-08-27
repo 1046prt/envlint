@@ -1,0 +1,168 @@
+{
+  "name": "envlint",
+  "displayName": "envlint - Codebase Contradiction Detector",
+  "description": "Find contradictions across different parts of your repository — versions, ports, env vars, scripts, and more.",
+  "version": "0.1.0",
+  "publisher": "1046prt",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "contradiction",
+    "consistency",
+    "linter",
+    "configuration",
+    "codebase",
+    "environment",
+    "docker",
+    "node",
+    "ci",
+    "drift"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/envlint/envlint"
+  },
+  "license": "MIT",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "envlint",
+          "title": "envlint",
+          "icon": "$(warning)"
+        }
+      ]
+    },
+    "views": {
+      "envlint": [
+        {
+          "id": "envlint.treeview",
+          "name": "Project Consistency",
+          "icon": "$(warning)"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "envlint.scan",
+        "title": "envlint: Scan Project",
+        "icon": "$(search)"
+      },
+      {
+        "command": "envlint.refresh",
+        "title": "envlint: Refresh",
+        "icon": "$(refresh)"
+      }
+    ],
+    "configuration": {
+      "title": "envlint",
+      "properties": {
+        "envlint.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable envlint scanning."
+        },
+        "envlint.excludePaths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "node_modules",
+            "dist",
+            "build",
+            ".git",
+            "out",
+            "coverage",
+            ".next",
+            ".nuxt",
+            ".cache",
+            "target"
+          ],
+          "description": "Directories to exclude from scanning."
+        },
+        "envlint.ignoreRules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "rule": {
+                "type": "string",
+                "description": "Rule ID to ignore (e.g. 'RUN002', 'runtime.node', or '*' for all)."
+              },
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Optional glob patterns. Omit to ignore the rule everywhere."
+              },
+              "reason": {
+                "type": "string",
+                "description": "Why this is ignored."
+              }
+            },
+            "required": [
+              "rule"
+            ]
+          },
+          "default": [],
+          "description": "Rules to suppress. Each entry has a rule ID and optional file globs."
+        },
+        "envlint.severityOverrides": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "enum": [
+              "critical",
+              "warning",
+              "possible"
+            ]
+          },
+          "default": {},
+          "description": "Override severity for specific rules, e.g. { 'runtime.node': 'warning' }."
+        },
+        "envlint.enableAuthorityScoring": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use source authority when computing contradiction scores."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "test": "jest",
+    "package": "vsce package --allow-missing-repository"
+  },
+  "dependencies": {
+    "minimatch": "^9.0.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/minimatch": "^5.1.2",
+    "@types/node": "^20.11.0",
+    "@types/unzipper": "^0.10.11",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "@vscode/vsce": "^3.9.2",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.3.3",
+    "unzipper": "^0.12.5"
+  }
+}

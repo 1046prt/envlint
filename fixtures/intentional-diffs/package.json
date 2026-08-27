@@ -1,0 +1,6 @@
+{
+  "name": "intentional-diffs-project",
+  "engines": {
+    "node": ">=18"
+  }
+}

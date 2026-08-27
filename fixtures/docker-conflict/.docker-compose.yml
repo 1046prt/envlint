@@ -1,0 +1,5 @@
+services:
+  admin:
+    build: .
+    ports:
+      - "9090:3001"
